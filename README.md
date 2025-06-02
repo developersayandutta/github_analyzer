@@ -60,3 +60,14 @@ $env:GITHUB_TOKEN="your_personal_github_token"
 python app.py
 ```
 > The app will run at: 📍 http://localhost:3000
+
+### 📈 Profile Score Logic
+The profile score is calculated using a weighted formula based on:
+- Repositories
+- Commits
+- Issues and PRs
+- Followers and following
+- Languages used
+- Pinned repositories
+- Organizations
+> Score is capped at 100 for normalization.
