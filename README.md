@@ -78,6 +78,4 @@ The profile score is calculated using a weighted formula based on:
 
 ### ⭐️ Give a Star
 If you found this useful, consider starring the repo ⭐️
-```
 
-```
