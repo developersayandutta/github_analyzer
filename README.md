@@ -38,3 +38,6 @@ GitHub Analyzer is a Flask-based web application that analyzes any GitHub user's
 ```bash
 git clone https://github.com/developersayandutta/github_analyzer.git
 cd github_analyzer
+```
+### 2. Install dependencies
+-- Make sure you have Python 3.7+ and pip installed.
