@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Stats Viewer</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1e1e2f;
+            color: #e0e0e0;
+            padding: 40px 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #61dafb;
+            font-weight: 700;
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 500px;
+            gap: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid #44475a;
+            background-color: #282a36;
+            color: #f8f8f2;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        input[type="text"]::placeholder {
+            color: #6272a4;
+        }
+
+        input[type="text"]:focus {
+            border-color: #61dafb;
+            outline: none;
+            box-shadow: 0 0 8px #61dafb;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background-color: #61dafb;
+            color: #282a36;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(97,218,251,0.5);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            user-select: none;
+        }
+
+        button:hover {
+            background-color: #21a1f1;
+            box-shadow: 0 6px 12px rgba(33,161,241,0.7);
+        }
+
+        .card {
+            background: #282a36;
+            padding: 30px 25px;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            color: #f8f8f2;
+            line-height: 1.6;
+            border: 1px solid #44475a;
+            margin-bottom: 40px;
+        }
+
+        .card h2 {
+            color: #282828;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #ff79c6;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        p strong {
+            color: #bd93f9;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        li {
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px solid #50fa7b;
+        }
+
+        .profile-info p {
+            margin: 4px 0;
+        }
+
+        a {
+            color: #8be9fd;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Score highlight */
+        .score {
+            background: #ff79c6;
+            color: #282a36;
+            font-weight: 700;
+            font-size: 2.4rem;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 0 15px #ff79c6aa;
+            user-select: none;
+        }
+
+        /* Section container for lists */
+        .section-list {
+            max-height: 250px;
+            overflow-y: auto;
+            background: #1f2233;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #44475a;
+        }
+
+        /* Language bar */
+        .lang-bar {
+            display: inline-block;
+            height: 14px;
+            border-radius: 6px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            body {
+                padding: 20px 10px;
+            }
+            form {
+                flex-direction: column;
+                gap: 15px;
+            }
+            button {
+                width: 100%;
+            }
+            input[type="text"] {
+                width: 100%;
+            }
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .avatar {
+                width: 75px;
+                height: 75px;
+            }
+        }
+
+        /* Error message */
+        .error-msg {
+            color: #ff5555;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>GitHub Profile Analyzer</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Enter GitHub Username" required>
+        <button type="submit">Fetch Data</button>
+    </form>
+
+    {% if error %}
+        <p class="error-msg">Error: {{ error }}</p>
+    {% endif %}
+
+    {% if data %}
+        <div class="card">
+            <div class="profile-header">
+                <img class="avatar" src="{{ data.avatar_url }}" alt="User Avatar">
+                <div class="profile-info">
+                    <p><strong>Username:</strong> <a href="https://github.com/{{ data.login }}" target="_blank" rel="noopener">{{ data.login }}</a></p>
+                    <p><strong>Full Name:</strong> {{ data.full_name or 'N/A' }}</p>
+                    <p><strong>Email:</strong> {{ data.email or 'N/A' }}</p>
+                    <p><strong>Bio:</strong> {{ data.bio or 'N/A' }}</p>
+                    <p><strong>Location:</strong> {{ data.location or 'N/A' }}</p>
+                    <p><strong>Website:</strong>
+                        {% if data.blog %}
+                            <a href="{{ data.blog }}" target="_blank" rel="noopener">{{ data.blog }}</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </p>
+                    <p><strong>Account Created:</strong> {{ data.created_at[:10] }}</p>
+                </div>
+            </div>
+            <h2 class="score">Profile Score: {{ data.profile_score if data else 'N/A' }}</h2>
+
+
+
+            <h2>GitHub Stats Summary</h2>
+            <p><strong>Public Repositories:</strong> {{ data.public_repos }}</p>
+            <p><strong>Total Commits (approx.):</strong> {{ data.total_commits }}</p>
+            <p><strong>Total Issues Created:</strong> {{ data.total_issues }}</p>
+            <p><strong>Total PRs Created:</strong> {{ data.total_prs }}</p>
+            <p><strong>Followers:</strong> {{ data.followers | length }}</p>
+            <p><strong>Following:</strong> {{ data.following | length }}</p>
+
+            <h3>Aggregate Languages Used</h3>
+            {% if data.aggregate_languages %}
+                <ul>
+                    {% for lang, bytes in data.aggregate_languages.items()|sort(attribute='1', reverse=True) %}
+                        <li>
+                            <span class="lang-bar" style="width: 30px; background-color: {% if lang == 'Python' %}#3572A5{% elif lang == 'JavaScript' %}#f1e05a{% elif lang == 'HTML' %}#e34c26{% elif lang == 'CSS' %}#563d7c{% else %}#888{% endif %};"></span>
+                            <strong>{{ lang }}:</strong> {{ bytes }} bytes
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No language data available.</p>
+            {% endif %}
+
+            <h3>Repositories</h3>
+            <div class="section-list">
+                {% if data.repos %}
+                    <ul>
+                        {% for repo in data.repos %}
+                            <li>
+                                <a href="{{ repo.html_url }}" target="_blank" rel="noopener">{{ repo.name }}</a> 
+                                {% if repo.description %} - {{ repo.description }}{% endif %} <br>
+                                ⭐ {{ repo.stargazers_count }} | 🍴 {{ repo.forks_count }} | Updated: {{ repo.updated_at[:10] }}<br>
+                                {% if repo.languages %}
+                                    Languages: 
+                                    {% for lang, bytes in repo.languages.items() %}
+                                        <span class="lang-bar" style="width: 20px; background-color: {% if lang == 'Python' %}#3572A5{% elif lang == 'JavaScript' %}#f1e05a{% elif lang == 'HTML' %}#e34c26{% elif lang == 'CSS' %}#563d7c{% else %}#888{% endif %};" title="{{ lang }}"></span>
+                                    {% endfor %}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No repositories found.</p>
+                {% endif %}
+            </div>
+
+            <h3>Followers</h3>
+            <div class="section-list">
+                {% if data.followers %}
+                    <ul>
+                        {% for follower in data.followers %}
+                            <li><a href="{{ follower.html_url }}" target="_blank" rel="noopener">{{ follower.login }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No followers found.</p>
+                {% endif %}
+            </div>
+
+            <h3>Following</h3>
+            <div class="section-list">
+                {% if data.following %}
+                    <ul>
+                        {% for user in data.following %}
+                            <li><a href="{{ user.html_url }}" target="_blank" rel="noopener">{{ user.login }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Not following anyone.</p>
+                {% endif %}
+            </div>
+
+            <h3>Recent Contributions</h3>
+            {% if data.recent_contributions %}
+                <ul>
+                    {% for item in data.recent_contributions %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No recent contributions found.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
