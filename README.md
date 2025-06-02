@@ -40,4 +40,9 @@ git clone https://github.com/developersayandutta/github_analyzer.git
 cd github_analyzer
 ```
 ### 2. Install dependencies
--- Make sure you have Python 3.7+ and pip installed.
+> *Make sure you have Python 3.7+ and pip installed.
+
+```
+pip install -r requirements.txt
+```
+
