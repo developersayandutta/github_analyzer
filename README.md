@@ -85,4 +85,4 @@ If you appreciate our work and want to support our journey, consider buying us a
 
 <a href="https://www.buymeacoffee.com/s_a_y_a_n" target="_blank"> <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="200" /> </a>
 
-**GitHub**
+**SAYAN DUTTA**
