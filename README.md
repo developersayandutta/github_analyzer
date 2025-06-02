@@ -45,4 +45,18 @@ cd github_analyzer
 ```
 pip install -r requirements.txt
 ```
+### 3. Set up your GitHub Token (for higher API rate limits)
+Create a .env file or export directly:
 
+```
+export GITHUB_TOKEN=your_personal_github_token
+```
+Or in Windows PowerShell:
+```
+$env:GITHUB_TOKEN="your_personal_github_token"
+```
+### 🖥️ Run the App
+```
+python app.py
+```
+> The app will run at: 📍 http://localhost:3000
