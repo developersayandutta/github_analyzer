@@ -16,9 +16,15 @@ GitHub Analyzer is a Flask-based web application that analyzes any GitHub user's
 
 ---
 
-## 📸 Screenshot
+## 📸 Demo
 
-> *(Add a screenshot of the web UI here, if applicable)*
+<iframe width="560" height="315" 
+    src="https://www.youtube.com/embed/zr9Nj2b0xa8" 
+    title="GitHub Analyzer Demo" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+</iframe>
 
 ---
 
