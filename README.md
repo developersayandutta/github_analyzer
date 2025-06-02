@@ -74,7 +74,7 @@ The profile score is calculated using a weighted formula based on:
 ### 📄 License
 > This project is open-source and available under the MIT License.
 ### 👨‍💻 Author
-> Made with ❤️ by @developersayandutta[[@developersayandutta](https://github.com/developersayandutta)]
+> Made with ❤️ by [[@developersayandutta](https://github.com/developersayandutta)]
 
 ### ⭐️ Give a Star
 If you found this useful, consider starring the repo ⭐️
